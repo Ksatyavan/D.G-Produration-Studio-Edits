@@ -889,6 +889,19 @@
 </footer>
 
 <script>
+  // पहिल्या load ला नेहमी #home सेट कर
+  (function(){
+    // जर hash नाही किंवा आधीच #home असेल तर काही करू नको
+    if (!window.location.hash || window.location.hash === '#home') return;
+
+    // बाकी कोणताही hash असेल तर quietly #home ने replace कर
+    history.replaceState(null, '', window.location.pathname + window.location.search + '#home');
+
+    // थोड्याशा delay नंतर वर scroll कर (काही browser smooth scroll मुळे)
+    window.scrollTo({ top: 0, left: 0 });
+  })();
+
+  // scroll reveal for .reveal + entrance for .card-hover
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
@@ -900,6 +913,7 @@
 
   document.querySelectorAll('.reveal, .card-hover').forEach(el => observer.observe(el));
 
+  // lightbox
   const lightbox=document.getElementById('lightbox');
   const lightboxImg=document.getElementById('lightbox-img');
   const closeBtn=document.querySelector('.lightbox-close');
@@ -915,6 +929,7 @@
   lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.classList.remove('active');});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')lightbox.classList.remove('active');});
 
+  // mobile nav
   const navToggle=document.querySelector('.nav-toggle');
   const nav=document.querySelector('header nav');
   navToggle.addEventListener('click',()=>{
@@ -929,5 +944,7 @@
   });
 </script>
 
+
 </body>
 </html>
+
